@@ -37,3 +37,13 @@ The Arduino sketch is split into four files:
 * `connectivity.ino`: Contains all of the code required for the board to connect to the Internet. Used primarily for timekeeping.
 * `connectivity.h`: Header file for `connectivity.ino`.
 * `network_credentials.h`: Contains definitions for network credentials. Stored in a separate file for convenience and security.
+Rather than go through each file individually, I would like to explain all of the code separated by the goals we wish to accomplish, going through them in order of least importance.
+### Logging movement with timestamp
+RTC modules are readily available for boards that do not have them, but the issue with all of them is that they must be powered at all times to continue counting time. That would prove infeasible for my purposes, so I decided to find a way to reset the time to the current time on every system boot.\
+Unfortunately, **this process requires Wi-Fi**, which means it cannot be accomplished on boards that do not support it.\
+Once again, the Arduino documentation contains the functions required to connect your board to the Internet and fetch time from a Network Time Protocol (NTP) server.\
+`void connectToWifi()` is modified from this source. It checks if there is a Wi-Fi module in the first place, if the firmware is up-to-date, then connects to a WPA/WPA2 Wi-Fi network using the `SSID` and `PASS` environment variables defined in `network_credentials.h`.\
+Moving to `homesecurity.ino`, here we define two variables: `WifiUDP Udp`—a UDP instance that allows us to send/receive packets over UDP—and `NTPClient timeClient(Udp)`, which is an NTP client that we will use to fetch the time from the Internet.\
+In line 26, we connect to the Internet and start the RTC:\
+`connectToWifi(); // connect to Wifi`
+`RTC.begin()`
