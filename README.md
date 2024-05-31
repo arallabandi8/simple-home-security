@@ -44,6 +44,15 @@ Unfortunately, **this process requires Wi-Fi**, which means it cannot be accompl
 Once again, the Arduino documentation contains the functions required to connect your board to the Internet and fetch time from a Network Time Protocol (NTP) server.\
 `void connectToWifi()` is modified from this source. It checks if there is a Wi-Fi module in the first place, if the firmware is up-to-date, then connects to a WPA/WPA2 Wi-Fi network using the `SSID` and `PASS` environment variables defined in `network_credentials.h`.\
 Moving to `homesecurity.ino`, here we define two variables: `WifiUDP Udp`—a UDP instance that allows us to send/receive packets over UDP—and `NTPClient timeClient(Udp)`, which is an NTP client that we will use to fetch the time from the Internet.\
-In line 26, we connect to the Internet and start the RTC:\
-`connectToWifi(); // connect to Wifi`
-`RTC.begin()`
+We connect to the Internet, start the RTC, and start the time client:\
+```
+connectToWifi(); // connect to Wifi
+RTC.begin();
+
+// begin the time client
+timeClient.begin();
+timeClient.update();
+```
+Then, we obtain the local time in the next few lines and set the RTC's start time to our local time. During our loop, we have a variable `currTime` that stores the current time and is then used in the `Serial.print()` lines whenever we need to print the timestamp an incident occurs. It will look like this:\
+`[2024-5-31 18:26:05] Movement detected!`
+### Detect movement and alert user
