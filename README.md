@@ -32,6 +32,8 @@ The only purpose of including a voltage divider on this circuit is to provide an
 Using the 5V source of the Arduino, we are capable of creating a voltage of 2.5V to feed to VRTC by using any two resistors with the same resistance. Of course, any resistances may work so long as the voltage between them is in the range of 1.6V and 3.6V. A helpful equation might be the Voltage Divider Rule (VDR): \$V_{R_1}=(R_1)/(R_1+R_2)$, where \$V_{R_1}$ is the voltage across the first resistor in series. This quantity can then be subtracted from 5V to determine the resulting input voltage to VRTC.
 
 ## Code
-The Arduino sketch is split into four different files:
-*`homesecurity.ino`: The bread and butter of the system. Calls relevant functions to initialize system and performs the necessary steps to calculate distance and decide whether to alert user and intruder.
-*`connectivity.h`:
+The Arduino sketch is split into four files:
+* `homesecurity.ino`: The bread and butter of the system. Calls relevant functions to initialize system and performs the necessary steps to calculate distance and decide whether to alert user and intruder.
+* `connectivity.ino`: Contains all of the code required for the board to connect to the Internet. Used primarily for timekeeping.
+* `connectivity.h`: Header file for `connectivity.ino`.
+* `network_credentials.h`: Contains definitions for network credentials. Stored in a separate file for convenience and security.
