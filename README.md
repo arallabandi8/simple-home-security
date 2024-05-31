@@ -10,7 +10,7 @@ As such, I created a security system with the following goals and features in mi
 * Write a message to the Arduino Serial Monitor whenever movement is detected, _logging the time it happens._
 
 ## Circuit
-![Schematic of Home Security Circuit](circuit.svg)\
+![Schematic of Home Security Circuit](schematic.jpg)\
 Above is a schematic of the circuit required, which is simple and able to be freely modified. The following components are used:
 * Arduino Uno R4 WiFi (Uno R3 shown in schematic)
 * Ultrasonic Distance Sensor (HC-SR01)
