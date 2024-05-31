@@ -38,7 +38,7 @@ The Arduino sketch is split into four files:
 * `connectivity.h`: Header file for `connectivity.ino`.
 * `network_credentials.h`: Contains definitions for network credentials. Stored in a separate file for convenience and security.
 Rather than go through each file individually, I would like to explain all of the code separated by the goals we wish to accomplish, going through them in order of least importance.
-### Logging movement with timestamp
+### Logging movement with timestamp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
 RTC modules are readily available for boards that do not have them, but the issue with all of them is that they must be powered at all times to continue counting time. That would prove infeasible for my purposes, so I decided to find a way to reset the time to the current time on every system boot.\
 Unfortunately, **this process requires Wi-Fi**, which means it cannot be accomplished on boards that do not support it.\
 Once again, the Arduino documentation contains the functions required to connect your board to the Internet and fetch time from a Network Time Protocol (NTP) server.\
