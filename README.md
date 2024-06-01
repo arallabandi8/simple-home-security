@@ -53,7 +53,7 @@ Rather than go through each file individually, I would like to explain all of th
 RTC modules are readily available for boards that do not have them, but the issue with all of them is that they must be powered at all times to continue counting time. That would prove infeasible for my purposes, so I decided to find a way to reset the time to the current time on every system boot.\
 Unfortunately, **this process requires Wi-Fi**, which means it cannot be accomplished on boards that do not support it.\
 Once again, the Arduino documentation contains the functions required to connect your board to the Internet and fetch time from a Network Time Protocol (NTP) server.\
-`void connectToWifi()` is modified from this source. It checks if there is a Wi-Fi module in the first place, if the firmware is up-to-date, then connects to a WPA/WPA2 Wi-Fi network using the `SSID` and `PASS` environment variables defined in `network_credentials.h`.\
+`void connectToWifi()` is modified from this source. It checks if there is a Wi-Fi module in the first place, if the firmware is up-to-date, then connects to a WPA/WPA2 Wi-Fi network using the `SSID` and `PASS` macros defined in `network_credentials.h`.\
 Moving to `homesecurity.ino`, here we define two variables: `WifiUDP Udp`—a UDP instance that allows us to send/receive packets over UDP—and `NTPClient timeClient(Udp)`, which is an NTP client that we will use to fetch the time from the Internet.\
 We connect to the Internet, start the RTC, and start the time client:\
 ```
