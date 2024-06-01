@@ -133,3 +133,5 @@ else{
 }
 delay(100);
 ```
+## Conclusion
+The circuitry, code, and logic behind this simple home security system is easy to understand and implement. There is also great potential for modifications and upgrades depending on specific use-cases. Furthermore, it is simple enough to be implemented on a wide variety of Arudino boards. As such, users will be able to live their lives slightly more reassured that they will be aware when any bad actors try to break in.
