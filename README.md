@@ -56,3 +56,34 @@ timeClient.update();
 Then, we obtain the local time in the next few lines and set the RTC's start time to our local time. During our loop, we have a variable `currTime` that stores the current time and is then used in the `Serial.print()` lines whenever we need to print the timestamp an incident occurs. It will look like this:\
 `[2024-5-31 18:26:05] Movement detected!`
 ### Detect movement and alert user
+First, the system must be able to detect movement at a certain distance away. Knowing how the ultrasonic sensor works, we should be able to use the data provided by our ECHO pin to calculate distance.\
+In our `setup()` function, we first define the role of each pin:
+```
+// io definitions
+pinMode(trig,OUTPUT); // trigger is output because u have to output a signal to the trigger to activate sensor
+pinMode(echo,INPUT); // echo is input cuz it gives u the duration of impulse
+pinMode(buzz,OUTPUT); // buzz is output cuz we make buzz sound
+```
+Then, on each loop, we have to allow the sensor to collect data:
+```
+digitalWrite(trig,LOW); // deactivate trigger briefly before taking measurement
+  
+// briefly make trigger high, activating the module
+digitalWrite(trig,HIGH);
+delayMicroseconds(20);
+digitalWrite(trig,LOW);
+```
+This will activate the ultrasonic sensor and allow it to send a wave out. The time it takes for that wave to return will be provided to us by the ECHO pin, so we must take in that data as a pulse. It is divided by 2 because we only want the distance of the object compared to the sensor.\
+`long time = pulseIn(echo,HIGH) / 2;`
+Now that we have our time (in µs), we must calculate the distance. Assuming the ultrasonic wave travels at the speed of sound, we can convert this speed to m/µs and multiply it by our time to get the distance in meters:\
+`float distance = time * 0.000343; // multiply by speed of sound in m/us (microseconds), which is necessary as pulseIn gives us microseconds`
+Given our distance, we can set the threshold for when to perform the warning actions by creating an `if()` statement and only executing actions if the distance is under a certain value. For example...\
+```
+if (distance <= 1.2){
+  // warn user in serial output
+  // play buzzer noise
+  // change LED matrix
+}
+delay(100);
+```
+### Play sound to alert and warn the intruder
