@@ -77,7 +77,7 @@ This will activate the ultrasonic sensor and allow it to send a wave out. The ti
 `long time = pulseIn(echo,HIGH) / 2;`
 Now that we have our time (in µs), we must calculate the distance. Assuming the ultrasonic wave travels at the speed of sound, we can convert this speed to m/µs and multiply it by our time to get the distance in meters:\
 `float distance = time * 0.000343; // multiply by speed of sound in m/us (microseconds), which is necessary as pulseIn gives us microseconds`
-Given our distance, we can set the threshold for when to perform the warning actions by creating an `if()` statement and only executing actions if the distance is under a certain value. For example...\
+Given our distance, we can set the threshold for when to perform the warning actions by creating an `if()` statement and only executing actions if the distance is under a certain value. For example...
 ```
 if (distance <= 1.2){
   // warn user in serial output
@@ -87,3 +87,49 @@ if (distance <= 1.2){
 delay(100);
 ```
 ### Play sound to alert and warn the intruder
+In order to play a warning sound, we must make use of the buzzer sub-circuit from earlier. This is as simple as using the `tone(pin, frequency)` function to play a tone on the correct pin.
+```
+if (distance <= 1.2){
+  // warn user in serial output (implementation not shown)
+  tone(buzz,400);
+  // change LED matrix (implementation not shown)
+}
+```
+However, we need to make sure that the tone stops with the `noTone()` function when the distance threshold is not reached. This requires an `else()` companion to the `if()` statement as follows:
+```
+else{
+  noTone(buzz);
+}
+```
+### Change the LED matrix
+To use the Uno R4's on-board matrix, we must `#include "Arduino_LED_Matrix.h"` in `homesecurity.ino`, create an object `ArduinoLEDMatrix leds` to interface with it, then change the matrix accordingly depending on whether or not the distance threshold is met. To this end, I have created helper functions `exclamationOn(ArduinoLEDMatrix * matrix)` and `exclamationOff(ArduinoLEDMatrix * matrix)`, which take a pointer to a matrix as their argument and change the bitmap displayed on it.\
+To create an image for the 8x12 matrix to display, we can create an 8x12 `byte` array and use the `ArduinoLEDMatrix.renderBitmap()` function, passing our array as an argument. For instance, here is the `exclamationOn()` function:
+```
+void exclamationOn(ArduinoLEDMatrix * matrix){
+  byte exclamation[8][12] = {
+    {0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0},
+    {1,1,1,1,1,1,1,0,0,1,1,1},
+    {1,1,1,1,1,1,1,0,0,1,1,1},
+    {1,1,1,1,1,1,1,0,0,1,1,1},
+    {1,1,1,1,1,1,1,0,0,1,1,1},
+    {0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0}
+  }; // exclamation pattern
+  matrix->renderBitmap(exclamation,8,12); // put exclamation onto matrix
+  return;
+}
+```
+Then this can simply be called in the aforementioned `if()` and `else()` statements:
+```
+if (distance <= 1.2){
+  // warn user in serial output (implementation not shown)
+  // play buzzer noise (implementation not shown)
+  exclamationOn(&leds);
+}
+else{
+  // stop playing tone (implementation not shown)
+  exclamationOff(&leds);
+}
+delay(100);
+```
