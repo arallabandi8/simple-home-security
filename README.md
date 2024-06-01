@@ -1,5 +1,16 @@
 # simple-home-security
 An Arduino-based machine that alerts of break-ins using proximity.
+1. [Introduction](#introduction)
+2. [Circuit](#circuit)
+   1. [Ultrasonic Sensor Functionality](#ultrasonic-sensor-functionality)
+   2. [Buzzer](#buzzer)
+   3. [Voltage Divider](#voltage-divider)
+3. [Code](#code)
+   1. [Logging movement with timestamp](#logging-movement-with-timestamp)
+   2. [Detect movement and alert user](#detect-movement-and-alert-user)
+   3. [Play sound to alert and warn the intruder](#play-sound-to-alert-and-warn-the-intruder)
+   4. [Change the LED matrix](#change-the-led-matrix)
+4. [Conclusion](#conclusion)
 
 ## Introduction
 Oftentimes when living with multiple people in the same house, there are times when you may not want anyone else to enter your room—especially when you are not there. As such, my main motivation for this was for that purpose: to keep others out of my room. However, while developing the system, I found that it could be easily repurposed into a simple home security system.\
