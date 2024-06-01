@@ -85,9 +85,9 @@ delayMicroseconds(20);
 digitalWrite(trig,LOW);
 ```
 This will activate the ultrasonic sensor and allow it to send a wave out. The time it takes for that wave to return will be provided to us by the ECHO pin, so we must take in that data as a pulse. It is divided by 2 because we only want the distance of the object compared to the sensor.\
-`long time = pulseIn(echo,HIGH) / 2;`
+`long time = pulseIn(echo,HIGH) / 2;`\
 Now that we have our time (in µs), we must calculate the distance. Assuming the ultrasonic wave travels at the speed of sound, we can convert this speed to m/µs and multiply it by our time to get the distance in meters:\
-`float distance = time * 0.000343; // multiply by speed of sound in m/us (microseconds), which is necessary as pulseIn gives us microseconds`
+`float distance = time * 0.000343; // multiply by speed of sound in m/us (microseconds), which is necessary as pulseIn gives us microseconds`\
 Given our distance, we can set the threshold for when to perform the warning actions by creating an `if()` statement and only executing actions if the distance is under a certain value. For example...
 ```
 if (distance <= 1.2){
